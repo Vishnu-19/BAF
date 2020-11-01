@@ -1,7 +1,7 @@
 import React ,{useState,useEffect} from 'react';
 
 import axios from 'axios';
-import './Home.css'
+import '../css/Home.css'
 import Nav from './Nav';
 import Blogpost from './Blogpost';
 import Footer from './Footer';
@@ -49,7 +49,7 @@ console.log(blogs)
           {/* <!-- Blog Entries Column --> */}
           <div class="col-md-8">
     
-            <h1 class="my-4">Latest Updates
+            <h1 class="my-4">Blog Feed
               {/* <small>Secondary Text</small> */}
             </h1>
 
