@@ -10,14 +10,10 @@ const session = require('express-session')
 const methodOverride = require('method-override')
 const mongoose=require('mongoose');
 const Blog= require('./models/blog');
-const User=require('./models/user');
-const test=require('./models/testmon');
-var multer  = require('multer');
-var upload = multer({ dest: 'uploads/' });
-var fs = require('fs'); 
-var path = require('path'); 
+const User=require('./models/user');; 
 var cors =require('cors');
 var getData = require('./routes/getData')
+var crudBlog =require('./routes/CRUDblog');
 app.use(cors());
 mongoose.connect('mongodb://localhost:27017/Blogger' ,{
     useNewUrlParser:true,
@@ -56,18 +52,16 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
 app.use('/getData',getData)
-
+app.use('/crud',crudBlog)
 
 
 app.get('/admin', checkAuthenticated, (req, res) => {
-  console.log(req.user);
-    Blog.find({_id:req.user.blog},(err,blog)=>{
+      Blog.find({_id:req.user.blog},(err,blog)=>{
       if(err){console.log(err)
         res.status(200).send('Error receiving the data')}
       else{
         res.render('index.ejs', { user: req.user,blogs:blog })
-        console.log(blog);
-        // list.push(blog);
+        
               
       }
     })
@@ -156,74 +150,6 @@ const newUser= new User(data);
 
    
 
-   var storage = multer.diskStorage({ 
-    destination: (req, file, cb) => { 
-        cb(null, 'uploads') 
-    }, 
-    filename: (req, file, cb) => { 
-        cb(null, file.fieldname + '-' + Date.now()) 
-    } 
-}); 
   
-var upload = multer({ storage: storage }); 
-
-app.post('/test',(req,res)=>{
-  console.log(req.query)
-  res.send(req.query.user)
-})
-app.post('/blog', upload.single('image'), (req, res, next) => { 
-  
-  var data = { 
-      title: req.body.title, 
-      content: req.body.content, 
-      img: { 
-          data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)), 
-          contentType: 'image/png'
-      } ,
-      author:req.body.author,
-      category:req.body.category,
-      date:Date.now(),
-  } 
- 
-  const newblog= new Blog(data);
-  newblog.save((error)=>{
-      if(error){
-          res.status(500).json({msg:"Server Error"});
-      }
-      else{   
-        
-  }
-  })
-  console.log(req.query.user)
-  
-  User.findOne({ name: req.query.user }, function(error, user) {
-    if (error) {
-      return handleError(error);
-    }
-    console.log(user);
-    user.blog.push(newblog);
-    // prints "Ian Fleming"
-    console.log(user);
-    user.save((error)=>{
-      if(error){
-        res.status(500).json({msg:"Error saving user blog"});
-      }
-      else{
-        res.redirect('/admin');
-      }
-    })
-  });
-  // User.findOne({name:'vish'},(err,user)=>{
-  //   console.log(user.blog)
-  // })
-//   User.
-//   findOne({ name: 'vish' }).
-//   populate('blog').
-//   exec(function (err, user) {
-//     if (err) return handleError(err);
-//     console.log(user.blog);
-//     // prints "The author is Ian Fleming"
-//   });
- }); 
 
 app.listen(5000);
