@@ -1,6 +1,4 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const bcrypt = require('bcrypt')
@@ -29,15 +27,6 @@ const initializePassport = require('./passport-config')
 //   email => users.find(user => user.email === email),
 //   id => users.find(user => user.id === id)
 // )
-const hash = bcrypt.hashSync(process.env.PASSWORD, 10);
-const users = []
-
-users.push({
-  id: Date.now().toString(),
-  name: 'Jhon21',
-  email: 'Jhon@gmail.com',
-  password: hash,
-});
 
 
 app.set('view-engine', 'ejs')
