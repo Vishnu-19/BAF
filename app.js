@@ -9,7 +9,7 @@ const flash = require('express-flash')
 const session = require('express-session')
 const methodOverride = require('method-override')
 const mongoose=require('mongoose');
-const blog= require('./models/blog');
+const Blog= require('./models/blog');
 const User=require('./models/user');
 const test=require('./models/testmon');
 var multer  = require('multer');
@@ -60,8 +60,20 @@ app.use('/getData',getData)
 
 
 app.get('/admin', checkAuthenticated, (req, res) => {
+  console.log(req.user);
+    Blog.find({_id:req.user.blog},(err,blog)=>{
+      if(err){console.log(err)
+        res.status(200).send('Error receiving the data')}
+      else{
+        res.render('index.ejs', { user: req.user,blogs:blog })
+        console.log(blog);
+        // list.push(blog);
+              
+      }
+    })
+    
+
   
-  res.render('index.ejs', { name: req.user.name })
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -155,6 +167,10 @@ const newUser= new User(data);
   
 var upload = multer({ storage: storage }); 
 
+app.post('/test',(req,res)=>{
+  console.log(req.query)
+  res.send(req.query.user)
+})
 app.post('/blog', upload.single('image'), (req, res, next) => { 
   
   var data = { 
@@ -169,7 +185,7 @@ app.post('/blog', upload.single('image'), (req, res, next) => {
       date:Date.now(),
   } 
  
-  const newblog= new blog(data);
+  const newblog= new Blog(data);
   newblog.save((error)=>{
       if(error){
           res.status(500).json({msg:"Server Error"});
@@ -178,8 +194,9 @@ app.post('/blog', upload.single('image'), (req, res, next) => {
         
   }
   })
+  console.log(req.query.user)
   
-  User.findOne({ name: 'vish' }, function(error, user) {
+  User.findOne({ name: req.query.user }, function(error, user) {
     if (error) {
       return handleError(error);
     }

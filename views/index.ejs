@@ -1,11 +1,11 @@
   
-<h1>Hi <%= name %></h1>
+<h1>Hi <%= user.name %></h1>
 <form action="/logout?_method=DELETE" method="POST">
   <button type="submit">Log Out</button>
   
 </form>
 <h1>Blog</h1><br>
-<form action="/blog" method="POST" enctype="multipart/form-data">
+<form action="/blog?user=<%=user.name %>" method="POST" enctype="multipart/form-data">
     <label>Title:</label><input name="title"type="text">
    <br><br> <p>Content:</p><textarea id="content" cols="86" rows ="20" name="content" placeholder="Add your content here....."></textarea>
     <br><br><label for="image">Upload Image:(.png)</label> 
@@ -20,4 +20,6 @@
     <br><br>
     <button type="submit">Create Blog</button></form>
 
-<br>
+
+    <br>
+<%= blogs %>
