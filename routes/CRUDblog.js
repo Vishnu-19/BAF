@@ -85,25 +85,28 @@ router.post('/create', upload.single('image'), (req, res, next) => {
 //     // prints "The author is Ian Fleming"
 //   });
  }); 
-
+router.get('/update',(req,res)=>{
+  console.log(req.query);
+  res.render('update.ejs',{id:req.query.id})
+})
 router.route('/update').post(function(req,res){
-const id = req.body.id
-console.log(id);
-
-    Blog.findByIdAndUpdate(id,{"status": 1}, function(err, result){
+const id = req.query.id;
+const newdata={
+  "title":req.body.title,
+    "content":req.body.content  
+}
+    Blog.findByIdAndUpdate(id,newdata,{useFindAndModify:false}, function(err, result){
 
         if(err){
             res.send(err)
         }
         else{
-            res.send(result)
+            res.redirect('/admin');
         }
-
     })
 })
 router.post('/delete',(req,res)=>{
-    console.log(req.query)
-    const id= req.query.blog_id;
+     const id= req.query.blog_id;
     const username=req.query.user;
 	 
   User.findOne({ username: username }, function(error, user) {

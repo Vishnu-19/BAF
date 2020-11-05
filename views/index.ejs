@@ -33,6 +33,7 @@
   <img src="data:blogs[i]/<%=blogs[i].img.contentType%>;base64, 
   <%=blogs[i].img.data.toString('base64')%>" width="750px" height="250px"></img>
   <button type="submit" >Delete</button>
+  <a href="/crud/update?id=<%=blogs[i]._id%>">Update</a>
 </form>
   <%} %>
 
