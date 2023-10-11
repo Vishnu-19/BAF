@@ -13,7 +13,7 @@ var cors =require('cors');
 var getData = require('./routes/getData')
 var crudBlog =require('./routes/CRUDblog');
 app.use(cors());
-mongoose.connect('mongodb://localhost:27017/Blogger' ,{
+mongoose.connect('mongodb+srv://<user>:<password>@cluster0.3iy8d97.mongodb.net/?retryWrites=true&w=majority' ,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 });

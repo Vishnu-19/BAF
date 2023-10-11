@@ -9,6 +9,7 @@ import SideWidget from './Sidewidget';
 import SearchWidget from './Searchwidget';
 import CategoryWidget from './Categorywidget';
 
+import Sidebar from './Sidebar';
 
   
 
@@ -40,20 +41,31 @@ console.log(blogs)
   
     return ( <div>
       {/* // Navigation --> */}
-      <Nav/>
+      
        {/* <!-- Page Content --> */}
-      <div class="container">
-    
+      <div class="container-fluid">
+      <Nav/>
         <div class="row">
+        <div class="col-3" style={{textAlign:"right"}}>
+    
+    {/* <!-- Search Widget --> */}
+  <CategoryWidget/>
+    {/* <!-- Categories Widget --> */}
+    <Sidebar/>
+
+    {/* <!-- Side Widget --> */}
+    
+
+  </div>
     
           {/* <!-- Blog Entries Column --> */}
-          <div class="col-md-8">
+          <div class="col-6" style={{}}>
     
-            <h1 class="my-4">Blog Feed
+            <h4 class="my-4 textwhite"> 
               {/* <small>Secondary Text</small> */}
-            </h1>
+            </h4>
 
-{console.log(blogs)}
+
             {/* <!-- Blog Post --> */}
            <Blogpost props={blogs}/>
             {/* <!-- Blog Post --> */}
@@ -62,19 +74,12 @@ console.log(blogs)
             
     
           </div>
+          <div class="col-3">
+
+          </div>
     
           {/* <!-- Sidebar Widgets Column --> */}
-          <div class="col-md-4">
-    
-            {/* <!-- Search Widget --> */}
-            <SearchWidget/>
-            {/* <!-- Categories Widget --> */}
-            <CategoryWidget/>
-    
-            {/* <!-- Side Widget --> */}
-            <SideWidget/>
-    
-          </div>
+          
     
         </div>
         {/* <!-- /.row --> */}
