@@ -31,6 +31,15 @@ router.get('/', (req ,res)=>{
         })
 });
 
+router.get('/', (req,res)=>{
+  Blog.find({ })
+  .then((data)=>{
+    res.json(data);
+  })
+  .catch((error)=>{
+    console.log(error)
+  })
+})
 
 router.post('/create', upload.single('image'), (req, res, next) => { 
   

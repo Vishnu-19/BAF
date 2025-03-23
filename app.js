@@ -13,7 +13,7 @@ var cors =require('cors');
 var getData = require('./routes/getData')
 var crudBlog =require('./routes/CRUDblog');
 app.use(cors());
-mongoose.connect('mongodb+srv://<user>:<password>@cluster0.3iy8d97.mongodb.net/?retryWrites=true&w=majority' ,{
+mongoose.connect(process.env.MONGO_URI,{
     useNewUrlParser:true,
     useUnifiedTopology:true
 });
@@ -57,6 +57,18 @@ app.get('/admin', checkAuthenticated, (req, res) => {
     
 
   
+})
+
+app.get('/login', (req,res)=>{
+  Blog.diffIndexes({_id: req.user.blog},(err,blog)=>{
+    if(err){
+      console.log(err)
+      res.status(200).send('Error')
+    }
+    else{
+      res.render('index.ejs',{user:req.user,blogs:blog})
+    }
+  })
 })
 
 app.get('/login', checkNotAuthenticated, (req, res) => {
@@ -141,4 +153,6 @@ const newUser= new User(data);
 
   
 
-app.listen(5000);
+app.listen(5000, () => {
+  console.log(`Server started on port 5000`);
+});
